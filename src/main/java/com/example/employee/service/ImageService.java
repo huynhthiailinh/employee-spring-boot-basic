@@ -1,5 +1,6 @@
 package com.example.employee.service;
 
+import org.apache.commons.io.IOUtils;
 import com.example.employee.constant.DefaultParam;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,26 @@ public class ImageService {
         }
 
         return type + "/" + id + "/" + fileName;
+    }
+
+    public byte[] getImageWithMediaType(String imageName, int id, String type) throws IOException {
+        Path destination = null;
+
+        String imageDir = "";
+
+        Path storageDirectory = Paths.get(System.getProperty("user.home") + storagePath + "/images/");
+
+        switch (type) {
+            case DefaultParam.AVARTAR:
+                imageDir = storageDirectory + File.separator + "avatars" + File.separator + id;
+                break;
+            default:
+                break;
+        }
+
+        destination = Paths.get(imageDir + File.separator + imageName);
+
+        return IOUtils.toByteArray(destination.toUri());
     }
 
 }
