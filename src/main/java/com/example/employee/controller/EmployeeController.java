@@ -1,5 +1,6 @@
 package com.example.employee.controller;
 
+import com.example.employee.handleJsonFilter.EmployeeFilter;
 import com.example.employee.model.Employee;
 import com.example.employee.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -22,21 +23,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/employees")
 public class EmployeeController {
 
+    private final EmployeeFilter employeeFilter;
+
     private final EmployeeService employeeService;
 
     @PostMapping
     public ResponseEntity addEployee(@RequestBody Employee employee) {
-        return new ResponseEntity<>(employeeService.addEmployee(employee), HttpStatus.CREATED);
+        return new ResponseEntity<>(employeeFilter.getEmployee(employeeService.addEmployee(employee)), HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
     public ResponseEntity getEmployeeById(@PathVariable int id) {
-        return new ResponseEntity<>(employeeService.getEmployeeById(id), HttpStatus.OK);
+        return new ResponseEntity<>(employeeFilter.getEmployee(employeeService.getEmployeeById(id)), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity getEmployees() {
-        return new ResponseEntity<>(employeeService.getEmployees(), HttpStatus.OK);
+        return new ResponseEntity<>(employeeFilter.getEmployees(employeeService.getEmployees()), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
@@ -47,11 +50,11 @@ public class EmployeeController {
 
     @PutMapping
     public ResponseEntity updateEmployee(@RequestBody Employee employee) {
-        return new ResponseEntity<>(employeeService.updateEmployee(employee), HttpStatus.OK);
+        return new ResponseEntity<>(employeeFilter.getEmployee(employeeService.updateEmployee(employee)), HttpStatus.OK);
     }
 
     @GetMapping("/name")
     public ResponseEntity getEmployeesByName(@RequestParam String name) {
-        return new ResponseEntity<>(employeeService.getEmployeesByName(name), HttpStatus.OK);
+        return new ResponseEntity<>(employeeFilter.getEmployees(employeeService.getEmployeesByName(name)), HttpStatus.OK);
     }
 }
