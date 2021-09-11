@@ -43,4 +43,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> getEmployeesByName(String name) {
         return employeeRepository.findEmployeesByName(name);
     }
+
+    @Override
+    public void updateAvatarById(int id, String avatar) {
+        employeeRepository.updateAvatarById(id, avatar);
+    }
 }

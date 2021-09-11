@@ -18,4 +18,6 @@ public interface EmployeeService {
 
     List<Employee> getEmployeesByName(String name);
 
+    void updateAvatarById(int id, String avatar);
+
 }
