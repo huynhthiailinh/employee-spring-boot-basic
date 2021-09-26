@@ -28,11 +28,11 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping
-    public ResponseEntity addEployee(@RequestBody Employee employee) {
+    public ResponseEntity addEmployee(@RequestBody Employee employee) {
         return new ResponseEntity<>(employeeFilter.getEmployee(employeeService.addEmployee(employee)), HttpStatus.CREATED);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("{id}") //api/employees/1
     public ResponseEntity getEmployeeById(@PathVariable int id) {
         return new ResponseEntity<>(employeeFilter.getEmployee(employeeService.getEmployeeById(id)), HttpStatus.OK);
     }
@@ -53,8 +53,8 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeFilter.getEmployee(employeeService.updateEmployee(employee)), HttpStatus.OK);
     }
 
-    @GetMapping("/name")
-    public ResponseEntity getEmployeesByName(@RequestParam String name) {
+    @GetMapping("name") // api/employees/name?name=Mai Thế Viễn
+    public ResponseEntity getEmployeesByName(@RequestParam(value = "name") String name) {
         return new ResponseEntity<>(employeeFilter.getEmployees(employeeService.getEmployeesByName(name)), HttpStatus.OK);
     }
 }
